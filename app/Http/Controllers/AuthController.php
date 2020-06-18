@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Utility;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use App\Providers\RouteServiceProvider;
+use App\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
 
-
+    use RegistersUsers;
 
      /**
      * Create a new AuthController instance.
@@ -18,7 +22,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
     /**
@@ -33,11 +37,52 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
+            return   Utility::ToApi("Sucessful login",true,$this->respondWithToken($token),"OK",201);
         }
-
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
+        
     }
+
+    public function register(Request $request)
+    {
+      
+        try {
+
+
+            $validator = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+             
+            if ($validator->fails()) {
+
+                return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized',"validator"=>$validator->messages()->first()],"Unauthorized",401);
+               
+            }
+
+    
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            $credentials = $request->only('email', 'password');
+            $token = $this->guard()->attempt($credentials);
+            $user->token = $token;
+            return   Utility::ToApi("Sucessful register",true,$user,"OK",201);
+    
+        } catch (Throwable $th) {
+            return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
+        }
+      
+
+     
+        
+    }
+
+    
 
     /**
      * Get the authenticated User
@@ -80,11 +125,11 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60
-        ]);
+        ];
     }
 
     /**
