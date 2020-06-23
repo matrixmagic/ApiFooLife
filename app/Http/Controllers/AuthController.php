@@ -37,7 +37,8 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if ($token = $this->guard()->attempt($credentials)) {
-            return   Utility::ToApi("Sucessful login",true,$this->respondWithToken($token),"OK",201);
+           $user= Auth()->user();
+            return   Utility::ToApi("Sucessful login",true,$user,"OK",201);
         }
         return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
         
@@ -50,7 +51,7 @@ class AuthController extends Controller
 
 
             $validator = Validator::make($request->all(), [
-               
+                'role_id' =>['required'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
@@ -71,7 +72,8 @@ class AuthController extends Controller
             ]);
             $credentials = $request->only('email', 'password');
             $token = $this->guard()->attempt($credentials);
-            $user->token = $token;
+            $user= Auth()->user();
+            $user->token=$token;
             return   Utility::ToApi("Sucessful register",true,$user,"OK",201);
     
         } catch (Throwable $th) {
