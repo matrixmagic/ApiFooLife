@@ -22,7 +22,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','IsEmailExists']]);
     }
 
     /**
@@ -50,7 +50,7 @@ class AuthController extends Controller
 
 
             $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', 'max:255'],
+               
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
@@ -64,9 +64,10 @@ class AuthController extends Controller
     
 
             $user = User::create([
-                'name' => $request->name,
+                
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'role_id'=>$request->role_id
             ]);
             $credentials = $request->only('email', 'password');
             $token = $this->guard()->attempt($credentials);
@@ -79,6 +80,36 @@ class AuthController extends Controller
       
 
      
+        
+    }
+
+    public function IsEmailExists(Request $request)
+    {
+      
+        try {
+
+
+            $validator = Validator::make($request->all(), [
+               
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+              
+            ]);
+             
+            if ($validator->fails()) {
+
+                return  Utility::ToApi("Email  exists",false,['error' => 'erro',"validator"=>$validator->messages()->first()],"OK",200);
+               
+            }
+            
+      
+              return  Utility::ToApi("Email not exists",true,"Email not exists","OK",200);
+        
+          
+    
+    
+        } catch (Throwable $th) {
+            return   Utility::ToApi("server error",false, ['error' => $th],"server error",500);
+        }
         
     }
 
