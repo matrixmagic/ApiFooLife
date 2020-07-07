@@ -24,17 +24,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register','IsEmailExists','Unauthorized']]);
-    }
-
-
-
-    
-
-    public function Unauthorized()
-    {
-        return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
-        
+        $this->middleware('ApiAuth:api', ['except' => ['login','register','IsEmailExists','Unauthorized']]);
     }
 
     /**
