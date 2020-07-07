@@ -10,6 +10,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 class AuthController extends Controller
 {
 
@@ -22,7 +24,17 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register','IsEmailExists']]);
+        $this->middleware('auth:api', ['except' => ['login','register','IsEmailExists','Unauthorized']]);
+    }
+
+
+
+    
+
+    public function Unauthorized()
+    {
+        return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
+        
     }
 
     /**
@@ -38,6 +50,8 @@ class AuthController extends Controller
 
         if ($token = $this->guard()->attempt($credentials)) {
            $user= Auth()->user();
+           $user->role_id=(int)$user->role_id;
+           $user->token=$token;
             return   Utility::ToApi("Sucessful login",true,$user,"OK",201);
         }
         return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
@@ -73,6 +87,7 @@ class AuthController extends Controller
             $credentials = $request->only('email', 'password');
             $token = $this->guard()->attempt($credentials);
             $user= Auth()->user();
+            $user->role_id=(int)$user->role_id;
             $user->token=$token;
             return   Utility::ToApi("Sucessful register",true,$user,"OK",201);
     
@@ -173,6 +188,22 @@ class AuthController extends Controller
     public function guard()
     {
         return Auth::guard();
+    }
+
+    public function CheckToken()
+    {
+
+        $user= Auth()->user();
+        if(null){
+        return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
+        }else{
+         $token =  $this->guard()->refresh();
+         $user->role_id=(int)$user->role_id;
+         $user->token=$token;
+          return   Utility::ToApi("Sucessful login",true,$user,"OK",201);
+          
+        }
+    
     }
 
 }

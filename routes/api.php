@@ -32,6 +32,9 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('IsEmailExists', 'AuthController@IsEmailExists');
+    Route::post('checkToken', 'AuthController@CheckToken');
+    Route::get('Unauthorized', 'AuthController@Unauthorized')->name("Unauthorized");
+    
     
 
 });
