@@ -2,22 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
+use App\RestaurantService;
 use Illuminate\Http\Request;
-use App\Http\Utility;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Services\FileService;
-use Carbon\Carbon;
-class FileController extends Controller
+
+class RestaurantServiceController extends Controller
 {
-
-    protected $fileService;
-    public function __construct(FileService $fileService)
-    {
-        $this->middleware('ApiAuth:api');
-        $this->fileService = $fileService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -46,20 +35,16 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-
-        $data =$request->only(['isMain','fileName','file']);
-        $dbfile=$this->fileService->add($data);
-        
-        return   Utility::ToApi("file uploaded",true,$dbfile,"OK",200);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\File  $file
+     * @param  \App\RestaurantService  $restaurantService
      * @return \Illuminate\Http\Response
      */
-    public function show(File $file)
+    public function show(RestaurantService $restaurantService)
     {
         //
     }
@@ -67,10 +52,10 @@ class FileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\File  $file
+     * @param  \App\RestaurantService  $restaurantService
      * @return \Illuminate\Http\Response
      */
-    public function edit(File $file)
+    public function edit(RestaurantService $restaurantService)
     {
         //
     }
@@ -79,10 +64,10 @@ class FileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\File  $file
+     * @param  \App\RestaurantService  $restaurantService
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, File $file)
+    public function update(Request $request, RestaurantService $restaurantService)
     {
         //
     }
@@ -90,10 +75,10 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\File  $file
+     * @param  \App\RestaurantService  $restaurantService
      * @return \Illuminate\Http\Response
      */
-    public function destroy(File $file)
+    public function destroy(RestaurantService $restaurantService)
     {
         //
     }

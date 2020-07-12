@@ -2,20 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
+use App\Restaurant;
 use Illuminate\Http\Request;
+use App\Http\Services\RestaurantService;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Utility;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Services\FileService;
-use Carbon\Carbon;
-class FileController extends Controller
+use Exception;
+
+class RestaurantController extends Controller
 {
 
-    protected $fileService;
-    public function __construct(FileService $fileService)
+
+
+    protected $resturantService;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  ResturantServcie  $users
+     * @return void
+     */
+    public function __construct(RestaurantService $restaurantService)
     {
+        $this->restaurantService = $restaurantService;
         $this->middleware('ApiAuth:api');
-        $this->fileService = $fileService;
     }
 
     /**
@@ -25,6 +35,10 @@ class FileController extends Controller
      */
     public function index()
     {
+
+        $restaurant =$this->restaurantService->getUserRestaurant();
+        
+        return   Utility::ToApi("add restaurant",true,$restaurant,"OK",200);
         //
     }
 
@@ -46,20 +60,22 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-
-        $data =$request->only(['isMain','fileName','file']);
-        $dbfile=$this->fileService->add($data);
+        $data =$request->only(['city','address','street','fax','openTime','closeTime']);
         
-        return   Utility::ToApi("file uploaded",true,$dbfile,"OK",200);
+   
+            $data['user_id'] = Auth::user()->id; 
+            $restaurant =$this->restaurantService->add($data);
+        
+        return   Utility::ToApi("add restaurant",true,$restaurant,"OK",201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\File  $file
+     * @param  \App\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function show(File $file)
+    public function show(Restaurant $restaurant)
     {
         //
     }
@@ -67,10 +83,10 @@ class FileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\File  $file
+     * @param  \App\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function edit(File $file)
+    public function edit(Restaurant $restaurant)
     {
         //
     }
@@ -79,10 +95,10 @@ class FileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\File  $file
+     * @param  \App\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, File $file)
+    public function update(Request $request, Restaurant $restaurant)
     {
         //
     }
@@ -90,10 +106,10 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\File  $file
+     * @param  \App\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(File $file)
+    public function destroy(Restaurant $restaurant)
     {
         //
     }

@@ -58,6 +58,7 @@ class AuthController extends Controller
                 'role_id' =>['required'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'phoneNumber'=>['required','string', 'unique:users']
             ]);
              
             if ($validator->fails()) {
@@ -72,7 +73,8 @@ class AuthController extends Controller
                 
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role_id'=>$request->role_id
+                'role_id'=>$request->role_id,
+                'phoneNumber'=>$request->phoneNumber
             ]);
             $credentials = $request->only('email', 'password');
             $token = $this->guard()->attempt($credentials);

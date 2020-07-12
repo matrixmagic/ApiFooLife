@@ -40,4 +40,5 @@ Route::group([
 
 ///////////////////////////////////////////////
 Route::resource('file','FileController');
+Route::resource('restaurant', 'RestaurantController');
 /////////////////////////////////////////

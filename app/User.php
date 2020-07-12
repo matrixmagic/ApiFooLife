@@ -17,7 +17,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role_id'
+        'name', 'email', 'password','role_id','phoneNumber'
     ];
 
     /**
@@ -60,4 +60,15 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function Restaurant()
+    {
+        return $this->hasOne('App\Restaurant');
+    }
+
+    public function Files()
+    {
+        return $this->hasMany('App\File');
+    }
 }
