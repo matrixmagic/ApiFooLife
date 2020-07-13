@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RestaurantService extends Model
+class Payment extends Model
 {
     protected $guarded = []; 
 }

@@ -15,6 +15,14 @@ class CreateRestaurantServicesTable extends Migration
     {
         Schema::create('restaurant_services', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('restaurant_id')->nullable();
+            $table->boolean('accessible')->default(false)->nullable();
+            $table->boolean('childfriendly')->default(false)->nullable();
+            $table->boolean('gamepad')->default(false)->nullable();
+            $table->boolean('wifi')->default(false)->nullable();
+            $table->boolean('power')->default(false)->nullable();
+            $table->boolean('pets')->default(false)->nullable();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->timestamps();
         });
     }

@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Auth;
 class RestaurantService {
 
 
-public function add($data){
+public function add($data,$services,$payments,$currencies,$games){
+
 $validator =Validator::make($data,[
+'name'=>'required','string',   
 'city'=>'required', 'string',
 'address'=>'required', 'string',
 'street' =>'required', 'string',
@@ -22,6 +24,34 @@ if($exists !=null)
 throw new CustomException("Restaurant is added to this user");
 $resturant =new Restaurant($data);
 $resturant->save();
+$resturant=Restaurant::find($resturant->id);
+if($services!=null){
+$services=$resturant->Services()->create($services);
+$resturant->load('Services');
+}
+if($payments!=null){
+    foreach ($payments as $item) {
+        $resturant->Payments()->attach($item);
+    }
+    $resturant->load('Payments');
+}
+if($currencies!=null){
+    foreach ($currencies as $item) {
+        $resturant->Currencies()->attach($item);
+    }
+    $resturant->load('Currencies');
+}
+
+if($games!=null){
+    foreach ($games as $item) {
+        $resturant->Games()->attach($item);
+    }
+    $resturant->load('Games');
+}
+
+
+
+
 return $resturant;
 }
 
@@ -34,7 +64,7 @@ public function get($id){
 
     public function getUserRestaurant(){
         $resturant=Auth()->user()->Restaurant;
-        if($resturant ==null)
+        if( $resturant ==null)
         throw new CustomException("Resturant not found");
         return $resturant;
     }

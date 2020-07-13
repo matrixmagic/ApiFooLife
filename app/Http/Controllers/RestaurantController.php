@@ -8,6 +8,7 @@ use App\Http\Services\RestaurantService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Utility;
 use Exception;
+use Illuminate\Support\Arr;
 
 class RestaurantController extends Controller
 {
@@ -60,11 +61,29 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        $data =$request->only(['city','address','street','fax','openTime','closeTime']);
-        
-   
+     
+        $data =$request->only(['name','city','address','street','fax','openTime','closeTime']);
+        if( Arr::exists($request->only(['services']), 'services'))
+        $services=$request->only(['services'])['services'];
+        else
+        $services=null;
+        if( Arr::exists($request->only(['payments']), 'payments'))
+        $payments=$request->only('payments')['payments'];
+        else
+        $payments=null;
+
+        if( Arr::exists($request->only(['currencies']), 'currencies'))
+        $currencies=$request->only('currencies')['currencies'];
+        else
+        $currencies=null;
+        if( Arr::exists($request->only(['games']), 'games'))
+        $games=$request->only('games')['games'];
+        else
+        $games=null;
+          
+          
             $data['user_id'] = Auth::user()->id; 
-            $restaurant =$this->restaurantService->add($data);
+            $restaurant =$this->restaurantService->add($data,$services,$payments,$currencies,$games);
         
         return   Utility::ToApi("add restaurant",true,$restaurant,"OK",201);
     }
