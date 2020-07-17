@@ -26,4 +26,10 @@ public function Games()
 {
     return $this->belongsToMany('App\Game');
 }
+
+public function Categories()
+{
+    return $this->hasMany('App\Category');
+}
+
 }

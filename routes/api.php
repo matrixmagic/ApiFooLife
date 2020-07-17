@@ -48,3 +48,12 @@ Route::resource('payment', 'PaymentController');
 Route::resource('currency', 'CurrencyController');
 //////////////////////////////////////////
 Route::resource('game', 'GameController');
+////////////////////////////////////////////////
+Route::resource('category', 'CategoryController');
+Route::post('getAllCatetoriesInSide', "CategoryController@getAllCatetoriesInSide");
+Route::post('changeOrder', "CategoryController@changeOrder");
+Route::post('changeDisplayOrder', "CategoryController@changeDisplayOrder");
+Route::post('categoryEdit', "CategoryController@update");
+Route::post('categoryDelete', "CategoryController@destroy");
+
+///////////////////////////////////////////
