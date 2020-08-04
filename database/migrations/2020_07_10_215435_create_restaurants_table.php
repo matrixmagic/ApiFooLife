@@ -16,6 +16,7 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('file_id')->nullable();
             $table->string('name')->nullable();
             $table->string('city')->nullable();
             $table->string('address')->nullable();
@@ -25,7 +26,8 @@ class CreateRestaurantsTable extends Migration
             $table->time('closeTime')->nullable();
             $table->double('longitude')->nullable();
             $table->double('latitude')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
             $table->timestamps();
         });
     }

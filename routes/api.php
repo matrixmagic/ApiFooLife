@@ -42,6 +42,9 @@ Route::group([
 Route::resource('file','FileController');
 ///////////////////////////////////////////////
 Route::resource('restaurant', 'RestaurantController');
+Route::get('gatAllResturants','RestaurantController@gatAllResturants');
+Route::post('getAllProductInCatgory','RestaurantController@getAllProductInCatgory');
+
 /////////////////////////////////////////
 Route::resource('payment', 'PaymentController');
 //////////////////////////////////////////
@@ -52,8 +55,28 @@ Route::resource('game', 'GameController');
 Route::resource('category', 'CategoryController');
 Route::post('getAllCatetoriesInSide', "CategoryController@getAllCatetoriesInSide");
 Route::post('changeOrder', "CategoryController@changeOrder");
-Route::post('changeDisplayOrder', "CategoryController@changeDisplayOrder");
+Route::post('changeCategoriesDisplayOrder', "CategoryController@changeDisplayOrder");
 Route::post('categoryEdit', "CategoryController@update");
 Route::post('categoryDelete', "CategoryController@destroy");
-
+Route::post('getRestrantCategory', "CategoryController@getRestrantCategory");
+Route::get('getAllCatetoriesAndProucts', "CategoryController@getAllCatetoriesAndProucts");
 ///////////////////////////////////////////
+Route::resource('product', 'ProductController');
+Route::post('getAllProductsInSide', "ProductController@getAllProductsInSide");
+Route::post('productChangeHidden', "ProductController@changeHidden");
+Route::post('changeproductsDisplayOrder', "ProductController@changeDisplayOrder");
+Route::post('productEdit', "ProductController@update");
+Route::post('productDelete', "ProductController@destroy");
+Route::post('changePrice', "ProductController@changePrice");
+Route::post('changePriceِForAllporducts', "ProductController@changePriceِForAllporducts");
+Route::post('changeProductContent', "ProductController@changeContent");
+Route::post('changePriceِForAllporductCateegory', "ProductController@changePriceِForAllporductCateegory");
+
+
+////////////////////////////////////////////////////////
+
+Route::resource('productExtra', 'ProductExtraController');
+Route::post('productExtraEdit', "ProductExtraController@update");
+Route::post('changeExtraPrice', "ProductExtraController@changePrice");
+Route::post('productExtraDelete', "ProductExtraController@destroy");
+Route::post('changeContentproductExtra', "ProductExtraController@changeContent");

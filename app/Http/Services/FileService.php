@@ -11,7 +11,44 @@ class FileService {
 
   
 
-public function add($data){
+
+    public function add($file,$isMain){
+
+
+
+
+
+        try {
+        
+           
+            $path = public_path() . '/uploads/files/store/';
+        
+            $filename=  Carbon::now()->isoFormat('MM_DD_YYYY_HH_mm_SS').$file->getClientOriginalName();
+           
+           
+        
+            $file->move($path, $filename);
+            $filename=(url('/Insperry/public/uploads/files/store/'.$filename));
+            $dbfile= new File;
+            $dbfile->user_id=Auth()->user()->id;
+            $dbfile->Path = $filename;
+            $dbfile->isMain=$isMain;
+            $dbfile->extension = pathinfo($path.$filename, PATHINFO_EXTENSION);
+               
+            $dbfile->save();
+            
+        } catch (Exception $e) {
+            throw new CustomException($e);
+        }
+               
+        return $dbfile;
+        }
+        
+      
+        
+        
+
+public function add2($data){
     $validator = Validator::make($data, [
         'fileName' => ['required', 'string', 'max:255'],
         'file' => ['required', 'string'],
@@ -29,7 +66,7 @@ try {
     fwrite($fp,$file);
     fclose($fp);
     $ext = pathinfo($path.$filename, PATHINFO_EXTENSION);
-    $filename=(url('/uploads/files/store/'.$filename));
+    $filename=(url('/Insperry/public/uploads/files/store/'.$filename));
     $dbfile =new File();
     $dbfile->path=$filename;
     if( Arr::exists($data, 'isMain'))

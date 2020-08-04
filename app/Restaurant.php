@@ -31,5 +31,14 @@ public function Categories()
 {
     return $this->hasMany('App\Category');
 }
+public function Products()
+{
+    return $this->hasMany('App\Product');
+}
+
+public function File()
+{
+    return $this->belongsTo('App\File', 'file_id', 'id');
+}
 
 }

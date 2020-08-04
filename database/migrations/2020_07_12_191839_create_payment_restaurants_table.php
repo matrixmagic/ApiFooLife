@@ -17,8 +17,8 @@ class CreatePaymentRestaurantsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('restaurant_id')->nullable();
             $table->unsignedBigInteger('payment_id')->nullable();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
-            $table->foreign('payment_id')->references('id')->on('payments');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
             $table->timestamps();
         });
     }

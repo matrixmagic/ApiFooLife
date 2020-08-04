@@ -2,6 +2,8 @@
 
 namespace App\Http\Services;
 use App\Restaurant;
+use App\Product;
+use App\Category;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
@@ -68,4 +70,37 @@ public function get($id){
         throw new CustomException("Resturant not found");
         return $resturant;
     }
+
+
+    public function gatAllResturant(){
+   $restaurants  = Restaurant::all();
+
+   if( $restaurants ==null)
+        throw new CustomException("Resturant not found");
+    if(count($restaurants) ==0)
+        throw new CustomException("no restaurants found");
+
+   $restaurants->load('File')->first();
+   $restaurants->load('Categories')->where('parentCategory_id',null);
+   $restaurants->load('Products');
+   return $restaurants;
+   
+    }
+
+    public function getAllProductInCatgory($restaurant_id,$category_id){
+        $products=Product::where('restaurant_id',$restaurant_id)->where('category_id',$category_id)->get();
+       
+        if( $products ==null)
+             throw new CustomException("products not found");
+         if(count($products) ==0)
+             throw new CustomException("no restaurants found");
+        $products->load('File');
+        $products->load('Category');
+        
+        return $products;
+        
+         }
+
+
+         
 }

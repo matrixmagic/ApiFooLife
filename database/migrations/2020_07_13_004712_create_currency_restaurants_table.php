@@ -17,8 +17,8 @@ class CreateCurrencyRestaurantsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('restaurant_id')->nullable();
             $table->unsignedBigInteger('currency_id')->nullable();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
-            $table->foreign('currency_id')->references('id')->on('currencies');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -17,8 +17,8 @@ class CreateGameRestaurantsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('restaurant_id')->nullable();
             $table->unsignedBigInteger('game_id')->nullable();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
-            $table->foreign('game_id')->references('id')->on('games');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->timestamps();
         });
     }

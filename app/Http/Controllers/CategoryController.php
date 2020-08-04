@@ -16,12 +16,12 @@ class CategoryController extends Controller
 
 
 
-    protected $paymentService;
+    protected $categoryService;
 
     public function __construct(CategoryService $categoryService)
     {
         $this->categoryService = $categoryService;
-        $this->middleware('ApiAuth:api');
+        $this->middleware('ApiAuth:api',['except' => ['getRestrantCategory' ]] );
     }
     /**
      * Display a listing of the resource.
@@ -43,6 +43,13 @@ class CategoryController extends Controller
         //
     }
 
+    
+    public function getRestrantCategory(Request $request)
+    {
+    
+        $categories=$this->categoryService->getRestrantCategory( $request->restaurant_id);
+        return Utility::ToApi("get restaurant Categories",true,$categories,"OK",200);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -64,7 +71,7 @@ class CategoryController extends Controller
         $data=$request->only('name','parentCategory_id');
 
         $category=$this->categoryService->add( $data);
-        return $category;
+        return Utility::ToApi("category added",true,$category,"OK",200);
     }
 
     /**
@@ -137,13 +144,19 @@ class CategoryController extends Controller
         return Utility::ToApi("delete done",true,$category,"OK",200);
         
     }
+    
+    public function getAllCatetoriesAndProucts(Request $request)
+    {
 
+        $categories=$this->categoryService->getAllCatetoriesAndProucts();
+        return Utility::ToApi("get all categories and products ",true,$categories ,"ok",200); 
+    }
 
     public function getAllCatetoriesInSide(Request $request)
     {
 
-        $category=$this->categoryService->getAllCatetoriesInSide( $request->parentCategory_id);
-        return Utility::ToApi("get all category ",true,$category ,"ok",200); 
+        $categories=$this->categoryService->getAllCatetoriesInSide( $request->parentCategory_id);
+        return Utility::ToApi("get all categorues ",true,$categories ,"ok",200); 
     }
     public function changeOrder(Request $request)
     {

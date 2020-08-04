@@ -15,6 +15,18 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('restaurant_id')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('file_id')->nullable();
+            $table->string('name')->nullable();
+            $table->decimal('price',10,3)->nullable();
+            $table->integer('hidden')->default(false);
+            $table->string('content')->nullable();
+            $table->unsignedInteger('displayOrder')->default(0);
+            $table->string('details')->nullable();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
             $table->timestamps();
         });
     }

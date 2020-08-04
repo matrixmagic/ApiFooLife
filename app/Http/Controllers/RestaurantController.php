@@ -26,7 +26,7 @@ class RestaurantController extends Controller
     public function __construct(RestaurantService $restaurantService)
     {
         $this->restaurantService = $restaurantService;
-        $this->middleware('ApiAuth:api');
+        $this->middleware('ApiAuth:api',['except' => ['gatAllResturants','getAllProductInCatgory' ]]);
     }
 
     /**
@@ -42,6 +42,26 @@ class RestaurantController extends Controller
         return   Utility::ToApi("add restaurant",true,$restaurant,"OK",200);
         //
     }
+
+    public function gatAllResturants()
+    {
+
+        $restaurant =$this->restaurantService->gatAllResturant();
+        
+        return   Utility::ToApi("add restaurant",true,$restaurant,"OK",200);
+        
+    }
+
+    public function getAllProductInCatgory(Request $request)
+    {
+        $products =$this->restaurantService->getAllProductInCatgory($request->restaurant_id,$request->category_id);
+        
+        return   Utility::ToApi("add products",true,$products,"OK",200);
+        
+    }
+
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -109,6 +129,8 @@ class RestaurantController extends Controller
     {
         //
     }
+
+    
 
     /**
      * Update the specified resource in storage.

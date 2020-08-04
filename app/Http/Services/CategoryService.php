@@ -198,4 +198,29 @@ public function get($id){
        throw new CustomException(" no Categories found");
         return $brothersCats;
     }
+    public function getAllCatetoriesAndProucts(){
+        $resturant=Auth()->user()->Restaurant()->first();
+        $categories=$resturant->Categories();
+          if($categories ==null)
+          throw new CustomException(" no Categories found");
+         $brothersCats =$brothersCat=$categories->where("parentCategory_id",null)->orderBy('displayOrder')->get();
+         if(count( $brothersCats)==0)
+
+         throw new CustomException(" no Categories found");
+         $brothersCats->load('Products.File','Products.ProductExtra');
+          return $brothersCats;
+      }
+    public function getRestrantCategory($restaurant_id){
+        $categories = Category::where('restaurant_id',$restaurant_id)->where('parentCategory_id',null)->get();
+        $categories->load('Products');
+        if( $categories ==null)
+             throw new CustomException("Categories not found");
+         if(count($categories) ==0)
+             throw new CustomException("no Categories found");
+            return $categories;
+        
+         }
+
+         
+
 }

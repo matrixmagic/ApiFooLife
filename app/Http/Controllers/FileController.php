@@ -37,6 +37,18 @@ class FileController extends Controller
     {
         //
     }
+    public function store(Request $request)
+    {
+        $file = $request->file('file');
+       
+        if(!$file->isValid()) {
+            return   Utility::ToApi("Error uploaded file",false,null,"BadRequest",400);
+        }
+       
+        $dbfile=$this->fileService->add($file,$request->isMain);
+        
+        return   Utility::ToApi("file uploaded",true,$dbfile,"OK",200);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,7 +56,7 @@ class FileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store2(Request $request)
     {
 
         $data =$request->only(['isMain','fileName','file']);

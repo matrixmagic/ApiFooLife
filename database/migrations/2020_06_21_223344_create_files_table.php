@@ -17,10 +17,10 @@ class CreateFilesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->text('path');
-            $table->boolean('isMain')->nullable();
+            $table->integer('isMain')->nullable();
             $table->text('extension')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
