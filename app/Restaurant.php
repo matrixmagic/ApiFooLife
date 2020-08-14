@@ -40,5 +40,25 @@ public function File()
 {
     return $this->belongsTo('App\File', 'file_id', 'id');
 }
+public function Likes()
+    {
+        return $this->hasMany('App\Like');
+    }
+    public function Views(){
+
+        return $this->hasMany('App\View');
+
+    }
+    public function Favourites(){
+
+        return $this->hasMany('App\Favourite');
+
+    }
+
+    public function User()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 
 }

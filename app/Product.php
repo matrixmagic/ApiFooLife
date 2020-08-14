@@ -35,5 +35,11 @@ class Product extends Model
   {
       return $this->hasMany('App\ProductExtra');
   }
+
+public function Happytime()
+{
+    return $this->hasOne('App\Happytime');
+}
+  
     
 }

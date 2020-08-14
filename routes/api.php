@@ -45,6 +45,11 @@ Route::resource('restaurant', 'RestaurantController');
 Route::get('gatAllResturants','RestaurantController@gatAllResturants');
 Route::post('getAllProductInCatgory','RestaurantController@getAllProductInCatgory');
 
+Route::post('getResturantStatistic','RestaurantController@getResturantStatistic');
+
+
+
+
 /////////////////////////////////////////
 Route::resource('payment', 'PaymentController');
 //////////////////////////////////////////
@@ -71,6 +76,8 @@ Route::post('changePrice', "ProductController@changePrice");
 Route::post('changePriceِForAllporducts', "ProductController@changePriceِForAllporducts");
 Route::post('changeProductContent', "ProductController@changeContent");
 Route::post('changePriceِForAllporductCateegory', "ProductController@changePriceِForAllporductCateegory");
+Route::post('changePriceِForAllporductCateegory', "ProductController@changePriceِForAllporductCateegory");
+Route::post('productHappyTime', "ProductController@productHappyTime");
 
 
 ////////////////////////////////////////////////////////
@@ -80,3 +87,8 @@ Route::post('productExtraEdit', "ProductExtraController@update");
 Route::post('changeExtraPrice', "ProductExtraController@changePrice");
 Route::post('productExtraDelete', "ProductExtraController@destroy");
 Route::post('changeContentproductExtra', "ProductExtraController@changeContent");
+
+///////////////////////////////////////////////////////////////////
+Route::resource('customer', 'CustomerController');
+Route::post('customerLike', "CustomerController@like");
+Route::post('customerFavourite', "CustomerController@favourite");

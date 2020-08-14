@@ -240,6 +240,46 @@ class ProductController extends Controller
         return   Utility::ToApi("change price for all category products successful ",true,$products ,"ok",200);
   
     }
+
+
+    
+
+    public function productHappyTime(Request $request)
+    {
+
+  
+        $validator = Validator::make($request->all(), [
+            
+            'amount' =>['required'],
+            'from' =>['required'],
+            'to'=>['required'],
+            'sunday'=>['required'],
+            'monday'=>['required'],
+            'tuesday'=>['required'],
+            'wednesday'=>['required'],
+            'thursday'=>['required'],
+            'friday'=>['required'],
+            'saturday'=>['required'],
+        ]);
+
+
+     
+        if ($validator->fails()) {
+
+            return   Utility::ToApi("missing fields",false, ["validator"=>$validator->messages()->first()],"BadRequest",400);
+           
+        }
+        
+     
+        $data=$request->only('category_id','from','to','amount','product_ids'
+                            ,'sunday', 'monday', 'tuesday','wednesday','thursday','friday', 'saturday');
+
+             
+
+        $products=$this->productService->productHappyTime( $data);
+        return   Utility::ToApi("chagnge products happyTime successful ",true,$products ,"ok",200);
+  
+    }
     
 
     public function changePriceِForAllporducts(Request $request)

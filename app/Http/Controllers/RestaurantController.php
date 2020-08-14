@@ -8,6 +8,7 @@ use App\Http\Services\RestaurantService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Utility;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 
 class RestaurantController extends Controller
@@ -60,6 +61,28 @@ class RestaurantController extends Controller
         
     }
 
+    public function getResturantStatistic(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'chart_id'=>['required'],
+            'date'=>['required'],
+            'time'=>['required']
+           
+        ]);
+         
+         
+        if ($validator->fails()) {
+
+            return   Utility::ToApi("missing fields",false, ["validator"=>$validator->messages()->first()],"BadRequest",400);
+           
+        }
+        $Statistic =$this->restaurantService->getResturantStatistic($request->chart_id,$request->date,$request->time);
+        
+        return   Utility::ToApi("get Statistic",true,$Statistic,"OK",200);
+        
+    }
+
+    
 
     
 

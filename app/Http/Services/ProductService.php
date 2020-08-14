@@ -2,12 +2,14 @@
 
 namespace App\Http\Services;
 use App\Product;
+use App\Happytime;
 use App\Category;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 class ProductService {
 
 
@@ -249,4 +251,65 @@ public function get($id){
 
 
     }
+
+    public function productHappyTime($data){
+    
+        $restaurant=Auth()->user()->Restaurant()->first();
+        if($restaurant==null)
+        throw new CustomException(" no restaurant found");
+
+        $category=Category::find($data['category_id']);
+        if($category==null)
+        throw new CustomException("category not found");
+        if($category->restaurant_id !=$restaurant->id)
+        throw new CustomException("you don't have access on this category");
+        $restProducts  =$restaurant->Products()->get();
+        $changedProducts = collect([]);
+        foreach ($data['product_ids'] as $key => $value) {
+           $product =$restProducts->find($value);
+           if($product==null){
+            throw new CustomException("may this product not found or yoy don't have access on this product");
+           }
+           $changedProducts->push($product);
+        }
+
+
+       $happyTimes =Happytime::where('restaurant_id',$restaurant->id)->where('category_id',$data['category_id'])->get();
+
+        
+       foreach (  $happyTimes as $item) {
+        $item->delete();
+       }
+
+       $happyTimes2 = collect([]);
+      
+       foreach ($changedProducts as $item) {
+      $item2  =$item->Happytime()->create(['restaurant_id'=>$restaurant->id,'category_id'=>$category->id,
+        'from'=>$data['from'],'to'=>$data['to'],'amount'=>$data['amount'],
+        'sunday'=>$data['sunday'],'monday'=>$data['monday'],'tuesday'=>$data['tuesday'],
+        'wednesday'=>$data['wednesday'],'thursday'=>$data['thursday'],'friday'=>$data['friday'],
+        'saturday'=>$data['saturday'],
+
+        ]);
+        $happyTimes2->push($item2);
+       }
+
+    
+
+
+    
+
+
+
+
+     
+
+          return $happyTimes2;
+   
+   
+       }
+   
+
+
+    
 }

@@ -11,6 +11,8 @@ use App\Http\Services\GameService;
 use App\Http\Services\CategoryService;
 use App\Http\Services\ProductService;
 use App\Http\Services\ProductExtraService;
+use App\Http\Services\CustomerService;
+
 
 class ServiceLayerServiceProvider extends ServiceProvider
 {
@@ -46,6 +48,9 @@ $this->app->bind(ProductService::class, function () {
 
 $this->app->bind(ProductExtraService::class, function () {
     return new ProductExtraService();
+});
+$this->app->bind(CustomerService::class, function () {
+    return new CustomerService();
 });
 
 
