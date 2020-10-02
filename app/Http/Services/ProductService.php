@@ -252,6 +252,81 @@ public function get($id){
 
     }
 
+    public function getAllProduct()
+    {
+        $product = new \stdClass();
+        $product->foods = Product::where('type_id',1)->inRandomOrder()->get();
+        $product->drinks = Product::where('type_id',2)->inRandomOrder()->get();
+
+        return $product;
+    }
+  
+
+
+    
+    public function getAllFoodsPagingRand($exceptIds=[],$pageSize=10){
+        $foods  = Product::whereNotIn('id',$exceptIds)->where('type_id',1)->inRandomOrder()->take($pageSize)->get();
+     
+        if( $foods ==null)
+             throw new CustomException("foods not found");
+         if(count($foods) ==0)
+             throw new CustomException("no foods found");
+     
+        $foods->load('File');
+        $foods->load('Restaurant');
+        $foods->load('Category');
+     
+        return $foods;
+        
+         }
+    public function getAllFoodsPaging($pageIndex=0,$pageSize=10){
+        $foods  = Product::where('type_id',1)->skip($pageIndex*$pageSize)->take($pageSize)->get();
+     
+        if( $foods ==null)
+             throw new CustomException("foods not found");
+         if(count($foods) ==0)
+             throw new CustomException("no foods found");
+     
+        $foods->load('File');
+        $foods->load('Restaurant');
+        $foods->load('Category');
+     
+        return $foods;
+        
+         }
+
+         public function getAllDrinksPaging($pageIndex=0,$pageSize=10){
+            $drinks  = Product::where('type_id',2)->skip($pageIndex*$pageSize)->take($pageSize)->get();
+         
+            if( $drinks ==null)
+                 throw new CustomException("drinks not found");
+             if(count($drinks) ==0)
+                 throw new CustomException("no drinks found");
+         
+            $drinks->load('File');
+            $drinks->load('Restaurant');
+            $drinks->load('Category');
+         
+            return $drinks;
+            
+             }
+             public function getAllDrinksPagingRand($exceptIds=[],$pageSize=10){
+                $drinks  = Product::whereNotIn('id',$exceptIds)->where('type_id',2)->inRandomOrder()->take($pageSize)->get();
+             
+                if( $drinks ==null)
+                     throw new CustomException("drinks not found");
+                 if(count($drinks) ==0)
+                     throw new CustomException("no drinks found");
+             
+                $drinks->load('File');
+                $drinks->load('Restaurant');
+                $drinks->load('Category');
+             
+                return $drinks;
+                
+                 }
+    
+
     public function productHappyTime($data){
     
         $restaurant=Auth()->user()->Restaurant()->first();

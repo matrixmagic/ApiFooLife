@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function __construct(ProductService $productService)
     {
         $this->productService = $productService;
-        $this->middleware('ApiAuth:api');
+        $this->middleware('ApiAuth:api',['except' => ['getAllDrinksPaging','getAllFoodsPaging','getAllDrinksPagingRand','getAllFoodsPagingRand']]);
     }
     /**
      * Display a listing of the resource.
@@ -31,6 +31,26 @@ class ProductController extends Controller
         //
     }
 
+    public function getAllDrinksPagingRand(Request $request)
+    {
+        $product=$this->productService-> getAllDrinksPagingRand($request->exceptIds,$request->pageSize);
+      return  Utility::ToApi("get all Drinks",true,$product,"OK",200);
+    }
+    public function getAllDrinksPaging(Request $request)
+    {
+        $product=$this->productService-> getAllDrinksPaging($request->pageIndex,$request->pageSize);
+      return  Utility::ToApi("get all Drinks",true,$product,"OK",200);
+    }
+    public function getAllFoodsPaging(Request $request)
+    {
+        $product=$this->productService->getAllFoodsPaging($request->pageIndex,$request->pageSize);
+      return  Utility::ToApi("get all  Foods",true,$product,"OK",200);
+    }
+    public function getAllFoodsPagingRand(Request $request)
+    {
+        $product=$this->productService->getAllFoodsPagingRand($request->exceptIds,$request->pageSize);
+      return  Utility::ToApi("get all  Foods",true,$product,"OK",200);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -51,7 +71,8 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' =>['required', 'string'],
-            'file_id' =>['required']
+            'file_id' =>['required'],
+            'type_id' =>['required'],
         ]);
          
         if ($validator->fails()) {
@@ -60,7 +81,7 @@ class ProductController extends Controller
            
         }
 
-        $data=$request->only('category_id','file_id','name','price','details');
+        $data=$request->only('category_id','file_id','name','price','details','type_id');
 
         $product=$this->productService->add($data);
       return  Utility::ToApi("product added",true,$product,"OK",200);

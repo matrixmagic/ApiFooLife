@@ -12,7 +12,7 @@ use App\Http\Services\CategoryService;
 use App\Http\Services\ProductService;
 use App\Http\Services\ProductExtraService;
 use App\Http\Services\CustomerService;
-
+use App\http\Services\PostService;
 
 class ServiceLayerServiceProvider extends ServiceProvider
 {
@@ -52,7 +52,9 @@ $this->app->bind(ProductExtraService::class, function () {
 $this->app->bind(CustomerService::class, function () {
     return new CustomerService();
 });
-
+$this->app->bind(PostService::class, function () {
+    return new PostService();
+});
 
 
 

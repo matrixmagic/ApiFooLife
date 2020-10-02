@@ -13,7 +13,7 @@ public function Services()
     return $this->hasOne('App\RestaurantService');
 }
 
-public function Payments()
+public function PaymentsMethod()
 {
     return $this->belongsToMany('App\Payment');
 }
@@ -60,5 +60,15 @@ public function Likes()
         return $this->belongsTo('App\User');
     }
 
+    public function Posts()
+    {
+        return $this->hasMany('App\Post');
+    }
+
+
+    public function Post()
+    {
+        return $this->hasOne('App\Post');
+    }
 
 }

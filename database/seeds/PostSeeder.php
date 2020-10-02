@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class RestaurantSeeder extends Seeder
+class PostSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class RestaurantSeeder extends Seeder
      */
     public function run()
     {
-          factory('App\Restaurant', 1000)->create();
+        //
     }
 }

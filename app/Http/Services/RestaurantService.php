@@ -4,6 +4,7 @@ namespace App\Http\Services;
 use App\Restaurant;
 use App\Product;
 use App\Category;
+use App\File;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +37,9 @@ $resturant->load('Services');
 }
 if($payments!=null){
     foreach ($payments as $item) {
-        $resturant->Payments()->attach($item);
+        $resturant->PaymentsMethod()->attach($item);
     }
-    $resturant->load('Payments');
+    $resturant->load('PaymentsMethod');
 }
 if($currencies!=null){
     foreach ($currencies as $item) {
@@ -64,8 +65,30 @@ public function get($id){
     $resturant=Restaurant::find($id);
     if($resturant ==null)
     throw new CustomException("Resturant not found");
+    $resturant->load('File')->first();
+    $resturant->load('Categories.Products')->where('parentCategory_id',null);
+    $resturant->load('Products');
+    $resturant->load('Services');
+    $resturant->load('PaymentsMethod');
+    $resturant->load('Games');
+    $resturant->load('User');
+    $resturant->load('Post.Image');
     return $resturant;
     }
+    public function getMyResturant(){
+        $resturant=Auth()->user()->Restaurant()->first();
+        if($resturant ==null)
+        throw new CustomException("Resturant not found");
+        $resturant->load('File')->first();
+        $resturant->load('Categories.Products')->where('parentCategory_id',null);
+        $resturant->load('Products');
+        $resturant->load('Services');
+        $resturant->load('PaymentsMethod');
+        $resturant->load('Games');
+        $resturant->load('User');
+        $resturant->load('Post.Image');
+        return $resturant;
+        }
 
     public function getUserRestaurant(){
         $resturant=Auth()->user()->Restaurant;
@@ -87,13 +110,75 @@ public function get($id){
    $restaurants->load('Categories.Products')->where('parentCategory_id',null);
    $restaurants->load('Products');
    $restaurants->load('Services');
-   $restaurants->load('Payments');
+   $restaurants->load('PaymentsMethod');
    $restaurants->load('Games');
    $restaurants->load('User');
+   $restaurants->load('Post.Image');
+
    return $restaurants;
    
     }
+    public function getAllResturantPaging($pageIndex=0,$pageSize=10){
+        $restaurants  = Restaurant::skip($pageIndex*$pageSize)->take($pageSize)->get();
+     
+        if( $restaurants ==null)
+             throw new CustomException("Resturant not found");
+         if(count($restaurants) ==0)
+             throw new CustomException("no restaurants found");
+     
+        $restaurants->load('File');
+        $restaurants->load('Categories.Products')->where('parentCategory_id',null);
+        $restaurants->load('Products');
+        $restaurants->load('Services');
+        $restaurants->load('PaymentsMethod');
+        $restaurants->load('Games');
+        $restaurants->load('User');
+        $restaurants->load('Post.Image');
+     
+        return $restaurants;
+        
+         }
 
+         public function getAllResturantPagingRand($pageSize=10,$exceptIds=[]){
+            $restaurants  = Restaurant::whereNotIn('id',$exceptIds)->inRandomOrder()->take($pageSize)->get();
+         
+            if( $restaurants ==null)
+                 throw new CustomException("Resturant not found");
+             if(count($restaurants) ==0)
+                 throw new CustomException("no restaurants found");
+         
+            $restaurants->load('File');
+            $restaurants->load('Categories.Products')->where('parentCategory_id',null);
+            $restaurants->load('Products');
+            $restaurants->load('Services');
+            $restaurants->load('PaymentsMethod');
+            $restaurants->load('Games');
+            $restaurants->load('User');
+            $restaurants->load('Post.Image');
+         
+            return $restaurants;
+            
+             }
+             public function getRestaurantById($id){
+                $restaurant  = Restaurant::find($id);
+             
+                if( $restaurant ==null)
+                     throw new CustomException("Resturant not found");
+                 
+             
+                $restaurant->load('File');
+                $restaurant->load('Categories.Products')->where('parentCategory_id',null);
+                $restaurant->load('Products');
+                $restaurant->load('Services');
+                $restaurant->load('PaymentsMethod');
+                $restaurant->load('Games');
+                $restaurant->load('User');
+                $restaurant->load('Post.Image');
+             
+                return $restaurant;
+                
+                 }
+    
     public function getAllProductInCatgory($restaurant_id,$category_id){
         $products=Product::where('restaurant_id',$restaurant_id)->where('category_id',$category_id)->get();
        
@@ -104,6 +189,7 @@ public function get($id){
         $products->load('File');
         $products->load('Category');
         $products->load('ProductExtra');
+        $products->load('Restaurant');
         
         return $products;
         
@@ -288,5 +374,47 @@ $collection->push(    $item);
          
     return $collection; 
 }
+
+
+public function changeLogo($logo_id){
+    $restaurant=Auth()->user()->Restaurant()->first();
+
+    if($restaurant==null){
+        throw new CustomException("you are not restuarant");
+    }
+
+        $resturantId=$restaurant->id;
+       
+        $file=File::find($logo_id);
+        if($file==null)
+        throw new CustomException("logo not found");
+      
+    $restaurant->logo_id=$file->id;
+    $restaurant->save();
+    return $restaurant;
+
+
+}
+
+public function changeBackground($file_id){
+    $restaurant=Auth()->user()->Restaurant()->first();
+
+    if($restaurant==null){
+        throw new CustomException("you are not restuarant");
+    }
+
+        $resturantId=$restaurant->id;
+       
+        $file=File::find($file_id);
+        if($file==null)
+        throw new CustomException("file not found");
+      
+    $restaurant->file_id=$file->id;
+    $restaurant->save();
+    return $restaurant;
+    }
+
+
+
 
 }

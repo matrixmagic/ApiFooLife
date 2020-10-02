@@ -27,7 +27,7 @@ class RestaurantController extends Controller
     public function __construct(RestaurantService $restaurantService)
     {
         $this->restaurantService = $restaurantService;
-        $this->middleware('ApiAuth:api',['except' => ['gatAllResturants','getAllProductInCatgory' ]]);
+        $this->middleware('ApiAuth:api',['except' => ['gatAllResturants','getAllProductInCatgory','getAllResturantPaging','getAllResturantPagingRand','getRestaurantById']]);
     }
 
     /**
@@ -40,26 +40,116 @@ class RestaurantController extends Controller
 
         $restaurant =$this->restaurantService->getUserRestaurant();
         
-        return   Utility::ToApi("add restaurant",true,$restaurant,"OK",200);
+        return   Utility::ToApi("get all restaurant",true,$restaurant,"OK",200);
         //
     }
+
+    public function getMyResturant()
+    {
+
+        $restaurant =$this->restaurantService->getMyResturant();
+        
+        return   Utility::ToApi("get my restaurant ",true,$restaurant,"OK",200);
+        //
+    }
+
+    
 
     public function gatAllResturants()
     {
 
         $restaurant =$this->restaurantService->gatAllResturant();
         
-        return   Utility::ToApi("add restaurant",true,$restaurant,"OK",200);
+        return   Utility::ToApi("get all restaurant",true,$restaurant,"OK",200);
         
     }
+
+    public function getAllResturantPaging(Request $request)
+    {
+
+        $restaurant =$this->restaurantService->getAllResturantPaging($request->pageIndex,$request->pageSize);
+        
+        return   Utility::ToApi("get all restaurant",true,$restaurant,"OK",200);
+        
+    }
+
+    public function getAllResturantPagingRand(Request $request)
+    {
+
+        $restaurant =$this->restaurantService->getAllResturantPagingRand($request->pageSize,$request->exceptRestaurantIds);
+        
+        return   Utility::ToApi("get all restaurant",true,$restaurant,"OK",200);
+        
+    }
+
+
 
     public function getAllProductInCatgory(Request $request)
     {
         $products =$this->restaurantService->getAllProductInCatgory($request->restaurant_id,$request->category_id);
         
-        return   Utility::ToApi("add products",true,$products,"OK",200);
+        return   Utility::ToApi("get all products",true,$products,"OK",200);
         
     }
+
+
+    public function getRestaurantById(Request $request)
+    {
+        $restaurant =$this->restaurantService->getRestaurantById($request->id);
+        
+        return   Utility::ToApi("get restaurant",true,$restaurant,"OK",200);
+        
+    }
+
+    
+
+    public function changeBackground(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'file_id'=>['required'],
+           
+        ]);
+         
+         
+        if ($validator->fails()) {
+
+            return   Utility::ToApi("missing fields",false, ["validator"=>$validator->messages()->first()],"BadRequest",400);
+           
+        }
+        $restaurant =$this->restaurantService->changeBackground($request->file_id);
+        
+        return   Utility::ToApi("background is change",true,$restaurant,"OK",200);
+        
+    }
+
+    
+    public function changeLogo(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'logo_id'=>['required'],
+           
+        ]);
+         
+         
+        if ($validator->fails()) {
+
+            return   Utility::ToApi("missing fields",false, ["validator"=>$validator->messages()->first()],"BadRequest",400);
+           
+        }
+        $restaurant =$this->restaurantService->changeLogo($request->logo_id);
+        
+        return   Utility::ToApi("logo is change",true,$restaurant,"OK",200);
+        
+    }
+
+
+
+
+
+    
+    
 
     public function getResturantStatistic(Request $request)
     {

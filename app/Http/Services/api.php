@@ -47,14 +47,11 @@ Route::get('home','HomeController@home');
 Route::post('restaurantChangeBackground','RestaurantController@changeBackground');
 Route::resource('restaurant', 'RestaurantController');
 Route::get('gatAllResturants','RestaurantController@gatAllResturants');
-Route::post('getAllResturantPaging','RestaurantController@getAllResturantPaging');
-Route::post('getAllResturantPagingRand','RestaurantController@getAllResturantPagingRand');
 Route::post('getAllProductInCatgory','RestaurantController@getAllProductInCatgory');
+
 Route::post('getResturantStatistic','RestaurantController@getResturantStatistic');
 Route::get('getMyResturant','RestaurantController@getMyResturant');
-Route::post('getRestaurantById','RestaurantController@getRestaurantById');
 
-Route::post('changeLogo','RestaurantController@changeLogo');
 
 
 /////////////////////////////////////////
@@ -85,12 +82,6 @@ Route::post('changeProductContent', "ProductController@changeContent");
 Route::post('changePriceِForAllporductCateegory', "ProductController@changePriceِForAllporductCateegory");
 Route::post('changePriceِForAllporductCateegory', "ProductController@changePriceِForAllporductCateegory");
 Route::post('productHappyTime', "ProductController@productHappyTime");
-Route::post('getAllFoodsPaging', "ProductController@getAllFoodsPaging");
-Route::post('getAllDrinksPaging', "ProductController@getAllDrinksPaging");
-Route::post('getAllDrinksPagingRand', "ProductController@getAllDrinksPagingRand");
-Route::post('getAllFoodsPagingRand', "ProductController@getAllFoodsPagingRand");
-
-
 
 
 ////////////////////////////////////////////////////////

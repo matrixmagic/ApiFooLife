@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Services\RestaurantService;
+use App\Http\Services\ProductService;
+use App\Http\Utility;
 
 class HomeController extends Controller
 {
@@ -13,7 +16,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        
     }
 
     /**
@@ -24,5 +27,17 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function home()
+    {
+        $home = new \stdClass();
+        $resturantService = new RestaurantService();
+        $home->restaurants = $resturantService->gatAllResturant();
+
+        $productService = new ProductService();
+        $home->products = $productService->getAllProduct();
+        
+        return   Utility::ToApi("home data return successfully",true,$home,"OK",200);
     }
 }
