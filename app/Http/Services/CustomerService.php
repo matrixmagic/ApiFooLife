@@ -48,7 +48,7 @@ public function get($id){
         $customer=Auth()->user()->Customer;
         if( $customer ==null)
         throw new CustomException("customer not found");
-        $like =$Customer->Likes()->where('product_id',$product->id)->first();
+        $like =$customer->Likes()->where('product_id',$product->id)->first();
         if($like==null){
             
             $like=   $customer->Likes()->create(['product_id'=>$product->id,'restaurant_id'=>$product->restaurant_id,'date'=>date("Y/m/d")]);

@@ -5,6 +5,9 @@ use App\Restaurant;
 use App\Product;
 use App\Category;
 use App\File;
+use App\User;
+use App\Like;
+use App\Favourite;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +15,12 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 class RestaurantService {
-
+    public function __construct()
+    {
+        auth()->setDefaultDriver('api');
+      
+    
+    }
 
 public function add($data,$services,$payments,$currencies,$games){
 
@@ -99,21 +107,12 @@ public function get($id){
 
 
     public function gatAllResturant(){
-   $restaurants  = Restaurant::all();
+   $restaurants  = User::where('role_id',2)->where('isVerfied',true)->with('Restaurant.File','Restaurant.Services','Restaurant.MainCategories','Restaurant.Products','Restaurant.PaymentsMethod','Restaurant.Games','Restaurant.User','Restaurant.Post.Image')->get()->pluck('Restaurant')->flatten();
 
    if( $restaurants ==null)
         throw new CustomException("Resturant not found");
     if(count($restaurants) ==0)
         throw new CustomException("no restaurants found");
-
-   $restaurants->load('File')->first();
-   $restaurants->load('Categories.Products')->where('parentCategory_id',null);
-   $restaurants->load('Products');
-   $restaurants->load('Services');
-   $restaurants->load('PaymentsMethod');
-   $restaurants->load('Games');
-   $restaurants->load('User');
-   $restaurants->load('Post.Image');
 
    return $restaurants;
    
@@ -140,22 +139,33 @@ public function get($id){
          }
 
          public function getAllResturantPagingRand($pageSize=10,$exceptIds=[]){
-            $restaurants  = Restaurant::whereNotIn('id',$exceptIds)->inRandomOrder()->take($pageSize)->get();
+
+            $restaurants=User::where('role_id',2)->where('isVerfied',true)->with('Restaurant.File','Restaurant.Services','Restaurant.MainCategories','Restaurant.Products','Restaurant.PaymentsMethod','Restaurant.Games','Restaurant.User','Restaurant.Post.Image')->get()->pluck('Restaurant')->flatten();
          
+            $restaurants  =$restaurants->whereNotIn('id',$exceptIds);
+            
+            
+            $restaurants= $restaurants->shuffle();
+            $restaurants=  $restaurants->take($pageSize);
             if( $restaurants ==null)
                  throw new CustomException("Resturant not found");
              if(count($restaurants) ==0)
                  throw new CustomException("no restaurants found");
          
-            $restaurants->load('File');
-            $restaurants->load('Categories.Products')->where('parentCategory_id',null);
-            $restaurants->load('Products');
-            $restaurants->load('Services');
-            $restaurants->load('PaymentsMethod');
-            $restaurants->load('Games');
-            $restaurants->load('User');
-            $restaurants->load('Post.Image');
+           
+                 $user = Auth()->user();
+        
+                 if($user && $user->role_id == 1)
+                 {
+                     
+                     foreach($restaurants as $item)
+                     if(Favourite::where('customer_id',$user->Customer->id)->where('restaurant_id',$item->id)->first())
+                         $item->favourite = 1;
+                     else
+                         $item->favourite = 0;
          
+                 }
+
             return $restaurants;
             
              }
@@ -190,6 +200,19 @@ public function get($id){
         $products->load('Category');
         $products->load('ProductExtra');
         $products->load('Restaurant');
+
+        $user = Auth()->user();
+
+        if($user && $user->role_id == 1)
+        {
+            
+            foreach($products as $item)
+            if(Like::where('customer_id',$user->Customer->id)->where('product_id',$item->id)->first())
+                $item->liked = 1;
+            else
+                $item->liked = 0;
+
+        }
         
         return $products;
         

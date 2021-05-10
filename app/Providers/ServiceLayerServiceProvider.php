@@ -13,6 +13,8 @@ use App\Http\Services\ProductService;
 use App\Http\Services\ProductExtraService;
 use App\Http\Services\CustomerService;
 use App\http\Services\PostService;
+use App\http\Services\SearchService;
+
 
 class ServiceLayerServiceProvider extends ServiceProvider
 {
@@ -55,7 +57,9 @@ $this->app->bind(CustomerService::class, function () {
 $this->app->bind(PostService::class, function () {
     return new PostService();
 });
-
+$this->app->bind(SearchService::class, function () {
+    return new SearchService();
+});
 
 
 

@@ -16,9 +16,17 @@ class CreateFilesTable extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->text('path');
+            $table->text('path')->nullable();
+            $table->text('url')->nullable();
             $table->integer('isMain')->nullable();
             $table->text('extension')->nullable();
+            $table->text('type')->nullable();
+            $table->decimal('width')->nullable();
+            $table->decimal("height")->nullable();
+            $table->decimal("duration_ms")->nullable();
+            $table->integer("streams")->nullable();
+            $table->decimal("file_size",15)->nullable();
+            $table->text('title')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

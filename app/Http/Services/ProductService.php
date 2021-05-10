@@ -4,6 +4,7 @@ namespace App\Http\Services;
 use App\Product;
 use App\Happytime;
 use App\Category;
+use App\Like;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
@@ -275,6 +276,18 @@ public function get($id){
         $foods->load('File');
         $foods->load('Restaurant');
         $foods->load('Category');
+        $user = Auth()->user();
+        
+        if($user && $user->role_id == 1)
+        {
+            
+            foreach($foods as $item)
+            if(Like::where('customer_id',$user->Customer->id)->where('product_id',$item->id)->first())
+                $item->liked = 1;
+            else
+                $item->liked = 0;
+
+        }
      
         return $foods;
         
@@ -321,6 +334,19 @@ public function get($id){
                 $drinks->load('File');
                 $drinks->load('Restaurant');
                 $drinks->load('Category');
+
+                $user = Auth()->user();
+
+                if($user && $user->role_id == 1)
+                {
+                    
+                    foreach($drinks as $item)
+                    if(Like::where('customer_id',$user->Customer->id)->where('product_id',$item->id)->first())
+                        $item->liked = 1;
+                    else
+                        $item->liked = 0;
+        
+                }
              
                 return $drinks;
                 

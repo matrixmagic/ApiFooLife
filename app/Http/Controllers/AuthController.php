@@ -24,7 +24,9 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('ApiAuth:api', ['except' => ['login','register','IsEmailExists','Unauthorized']]);
+        auth()->setDefaultDriver('api');
+        $this->middleware('ApiAuth:api', ['except' => ['login','loginByDeviceIdAsGuest','register','IsEmailExists','Unauthorized','IsEmailVerify','verifyRestaurant','changeRestaurantPassword']]);
+    
     }
 
     /**
@@ -42,11 +44,59 @@ class AuthController extends Controller
            $user= Auth()->user();
            $user->role_id=(int)$user->role_id;
            $user->token=$token;
+            if($user->role_id==2){
+                    if($user->isVerfied==0)
+                         return   Utility::ToApi("your account is not verified ",false,"your account is not verified","badRequest",410);
+
+            }
+
             return   Utility::ToApi("Sucessful login",true,$user,"OK",201);
         }
         return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized'],"Unauthorized",401);
         
     }
+
+    public function loginByDeviceIdAsGuest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'deviceId' => ['required', 'string']
+        ]);
+         
+        if ($validator->fails()) {
+
+            return   Utility::ToApi("Unauthorized",false, ['error' => 'Unauthorized',"validator"=>$validator->messages()->first()],"Unauthorized",401);
+           
+        }
+
+        $user = User::where('deviceId',$request->deviceId)->first();
+        if($user == null)
+        {
+   $num = User::count() + 1;
+            $user = User::create([
+                
+                'email' => 'guest'.$num.'@insperry.com',
+                'password' => Hash::make('12345678'),
+                'role_id'=>1,
+                'deviceId'=>$request->deviceId
+            ]);
+
+            $user->Customer()->create(['firstName' => 'guest']);
+     
+        }
+
+        $credentials = ['email'=>$user->email, 'password' => '12345678'];
+
+        if ($token = $this->guard()->attempt($credentials)) {
+           $user= Auth()->user();
+           $user->role_id=(int)$user->role_id;
+           $user->token=$token;
+
+            return   Utility::ToApi("Sucessful login",true,$user,"OK",201);
+        
+    }
+}
+
+    
 
     public function register(Request $request)
     {
@@ -111,7 +161,61 @@ class AuthController extends Controller
             }
             
       
-              return  Utility::ToApi("Email not exists",true,"Email not exists","OK",200);
+         
+            return  Utility::ToApi("Email not exists",true,"Email not exists","OK",200);
+        
+    
+    
+        } catch (Throwable $th) {
+            return   Utility::ToApi("server error",false, ['error' => $th],"server error",500);
+        }
+        
+    }
+
+
+    public function IsEmailVerify(Request $request)
+    {
+      
+        try {
+
+
+            $validator = Validator::make($request->all(), [
+               
+                'email' => ['required', 'string', 'email', 'max:255'],
+              
+            ]);
+             
+            if ($validator->fails()) {
+
+                return  Utility::ToApi("Email  exists",false,['error' => 'erro',"validator"=>$validator->messages()->first()],"OK",200);
+               
+            }
+            
+           $user= User::where("email",$request->email)->first();
+           if($user==null)
+           return  Utility::ToApi("Email not exists",false,"Email not exists","BadRequest",400);
+
+           if($user->role_id==1){
+            return  Utility::ToApi("you are not restaurant to verfiy",false,"you are not restaurant to verfiy","BadRequest",411);
+
+           }
+           // restaurant
+
+           if($user->isVerfied==0){
+
+            $restaurant=$user->Restaurant()->first();
+            if($restaurant==null)
+            return   Utility::ToApi("server error",false, "no restaurant found","server error",500);
+            
+        return  Utility::ToApi("you are not verfied ",true, $restaurant,"OK",412);
+       }
+
+           
+           else{
+
+            return  Utility::ToApi("you are  verfied",true,"you are  verfied","OK",200);
+           }
+            
         
           
     
@@ -122,6 +226,120 @@ class AuthController extends Controller
         
     }
 
+
+    public function verifyRestaurant(Request $request)
+    {
+      
+        try {
+
+
+            $validator = Validator::make($request->all(), [
+               
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'code' => ['required', 'string', ],
+              
+            ]);
+             
+            if ($validator->fails()) {
+
+                return  Utility::ToApi("Email  exists",false,['error' => 'erro',"validator"=>$validator->messages()->first()],"OK",200);
+               
+            }
+            
+           $user= User::where("email",$request->email)->first();
+           if($user==null)
+           return  Utility::ToApi("Email not exists",false,"Email not exists","BadRequest",400);
+
+           if($user->role_id==1){
+            return  Utility::ToApi("you are not restaurant to verfiy",false,"you are not restaurant to verfiy","BadRequest",400);
+
+           }
+           // restaurant
+
+           if($user->isVerfied==1){
+
+            return  Utility::ToApi("you are already verfied it",false,"you are already verfied it","BadRequest",400);
+           }
+           else{
+                if($user->verifyCode!=$request->code)
+                return  Utility::ToApi("you enter bad  code",false,"you enter bad  code","BadRequest",400);
+            
+
+                
+                
+            return  Utility::ToApi("you verfied your restaurant account ",true,"you verfied your restaurant account ","OK",200);
+           }
+            
+        
+          
+    
+    
+        } catch (Throwable $th) {
+            return   Utility::ToApi("server error",false, ['error' => $th],"server error",500);
+        }
+        
+    }
+
+    public function changeRestaurantPassword(Request $request)
+    {
+      
+        try {
+
+
+            $validator = Validator::make($request->all(), [
+               
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'code' => ['required', 'string', ],
+                'newpassword'=>['required', 'string', 'min:8', 'confirmed']
+              
+            ]);
+             
+            if ($validator->fails()) {
+
+                return  Utility::ToApi("Email  exists",false,['error' => 'erro',"validator"=>$validator->messages()->first()],"OK",200);
+               
+            }
+            
+            
+           $user= User::where("email",$request->email)->first();
+           if($user==null)
+           return  Utility::ToApi("Email not exists",false,"Email not exists","BadRequest",400);
+
+           if($user->role_id==1){
+            return  Utility::ToApi("you are not restaurant to verfiy",false,"you are not restaurant to verfiy","BadRequest",411);
+
+           }
+
+           if($user->verifyCode!=$request->code)
+           return  Utility::ToApi("you enter bad  code",false,"you enter bad  code","BadRequest",400);
+    
+           
+           
+           // restaurant
+
+           if($user->isVerfied==1){
+
+            return  Utility::ToApi("you are already verfied it",false,"you are already verfied it","BadRequest",400);
+           }
+           else{
+                if($user->verifyCode!=$request->code)
+                return  Utility::ToApi("you enter bad  code",false,"you enter bad  code","BadRequest",400);
+            
+                $user->isVerfied=1;
+                $user->password = Hash::make($request->newpassword);
+                $user->save();
+            return  Utility::ToApi("you verfied your restaurant account ",true,"you verfied your restaurant account ","OK",200);
+           }
+            
+        
+          
+    
+    
+        } catch (Throwable $th) {
+            return   Utility::ToApi("server error",false, ['error' => $th],"server error",500);
+        }
+        
+    }
     
 
     /**

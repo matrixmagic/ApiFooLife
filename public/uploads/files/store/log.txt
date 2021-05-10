@@ -1,0 +1,125 @@
+
+
+16/03/2021 23:31:35
+C:\ffmpeg\ffmpeg \
+-i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c383e24b.mp4" \
+-c:v copy \
+-ss 2.73 \
+ -t 9.94 \
+-y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615937494_60513fd6e4f70.mp4"
+
+16/03/2021 23:36:29
+C:\ffmpeg\ffmpeg \
+-i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" \
+-c:v copy \
+-ss 37.53 \
+ -t 173.91 \
+-y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615937789_605140fd5926e.mp4"
+
+16/03/2021 23:41:22
+C:\ffmpeg\ffmpeg \
+-i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" \
+-c:v copy \
+-ss 37.53 \
+ -t 173.91 \
+-y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615938082_60514222218fb.mp4"
+
+16/03/2021 23:42:28
+C:\ffmpeg\ffmpeg \
+-i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" \
+-c:v copy \
+-ss 37.53 \
+ -t 173.91 \
+-y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615938148_605142641a5b9.mp4"
+
+16/03/2021 23:44:38
+C:\ffmpeg\ffmpeg \
+-i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" \
+-c:v copy \
+-ss 38.79 \
+ -t 100.09 \
+-y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615938278_605142e64cc22.mp4"
+
+16/03/2021 23:51:42
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -c:v copy -ss  39.41  -t 87.42 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615938701_6051448defc6a.mp4"
+
+16/03/2021 23:53:33
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -c:v copy -c:a copy -ss  69.60  -t 48.48 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615938813_605144fd5c692.mp4"
+
+16/03/2021 23:54:21
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -c:v copy -c:a copy -ss  40.19  -t 124.33 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615938861_6051452da6f38.mp4"
+
+16/03/2021 23:56:21
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -c:v copy -c:a copy -ss  55.52  -t 89.30 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615938981_605145a59feb9.mp4"
+
+16/03/2021 23:59:55
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c385b54c.mp4" -c:v copy -c:a copy -ss  5.77  -t 7.65 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615939194_6051467add3b6.mp4"
+
+17/03/2021 00:01:53
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615939194_6051467add3b6.mp4" -c:v copy -c:a copy -ss  2.24  -t 2.01 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615939313_605146f1b912b.mp4"
+
+22/03/2021 10:12:43
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c383e24b.mp4" -c:v copy -c:a copy -ss  9.50  -t 2.27 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1616407963_60586d9b565e7.mp4"
+
+23/03/2021 17:54:13
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c383e24b.mp4" -c:v copy -c:a copy -ss  6.48  -t 8.32 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1616522053_605a2b450a008.mp4"
+
+08/04/2021 20:46:00
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617914760_606f6b8888aeb.mp4"
+
+08/04/2021 20:53:39
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617915219_606f6d53536ee.mp4"
+
+08/04/2021 20:55:34
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617915334_606f6dc6c42a4.mp4"
+
+08/04/2021 20:56:14
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617915374_606f6dee9268a.mp4"
+
+08/04/2021 21:00:32
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617915632_606f6ef08d535.mp4"
+
+08/04/2021 21:01:00
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617915660_606f6f0cad5e0.mp4"
+
+08/04/2021 21:43:34
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617918214_606f79063a2e1.mp4"
+
+08/04/2021 21:44:22
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617918262_606f79365c90c.mp4"
+
+08/04/2021 21:48:54
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617918534_606f7a467540b.mp4"
+
+08/04/2021 21:49:09
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617918549_606f7a55a7082.mp4"
+
+08/04/2021 21:55:11
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1615936568_60513c3877bc1.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617918911_606f7bbfa44ab.mp4"
+
+08/04/2021 23:45:09
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617925490_606f9572a6d8f.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617925509_606f95856fd5f.mp4"
+
+08/04/2021 23:50:19
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617925490_606f9572a6d8f.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617925819_606f96bb461cc.mp4"
+
+09/04/2021 12:32:33
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617925490_606f9572a6d8f.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617971553_6070496173523.mp4"
+
+09/04/2021 12:38:18
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617925490_606f9572a6d8f.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617971898_60704aba120ac.mp4"
+
+09/04/2021 20:18:12
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617925490_606f9572a6d8f.mp4" -c:v copy -c:a copy -ss  64.52  -t 50.25 -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1617999491_6070b683cd3e3.mp4"
+
+11/04/2021 18:38:45
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618166243_607341e3a16cb.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618166325_60734235c829b.mp4"
+
+11/04/2021 19:17:15
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618166243_607341e3a16cb.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618168635_60734b3bc1712.mp4"
+
+11/04/2021 19:26:23
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618169175_60734d573807c.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618169183_60734d5f6a614.mp4"
+
+11/04/2021 21:24:16
+C:\ffmpeg\ffmpeg -i "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618169175_60734d573807c.mp4" -pix_fmt yuv420p -filter_complex " [0:v]scale=640:359 :force_original_aspect_ratio=increase[0v_tmpsize]; [0v_tmpsize]pad=640:360:x=0:y=0.5:color=black[v_scaled] "  -map "[ v_scaled]" -map "0:a" -s 640x360 -aspect 1.777778 -r 25  -y "P:\xampp\htdocs\insperry\public\uploads\files\store\1\1618176256_60736900306f5.mp4"

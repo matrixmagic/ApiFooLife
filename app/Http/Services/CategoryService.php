@@ -7,7 +7,12 @@ use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 class CategoryService {
-
+    public function __construct()
+    {
+        auth()->setDefaultDriver('api');
+      
+    
+    }
 
 public function add($data){
 

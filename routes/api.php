@@ -28,14 +28,17 @@ Route::group([
     
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
+    Route::post('loginByDeviceIdAsGuest', 'AuthController@loginByDeviceIdAsGuest');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('IsEmailExists', 'AuthController@IsEmailExists');
     Route::post('checkToken', 'AuthController@CheckToken');
+    Route::post('verifyRestaurant', 'AuthController@verifyRestaurant');
+    Route::post('IsEmailVerify', 'AuthController@IsEmailVerify');
+    Route::post('changeRestaurantPassword', 'AuthController@changeRestaurantPassword');
     
     
-
 });
 
 ///////////////////////////////////////////////
@@ -108,3 +111,11 @@ Route::post('customerFavourite', "CustomerController@favourite");
 
 //////////////////////////////////////////////////////////
 Route::resource('post', 'PostController');
+
+/////////////////////////////////////////////////////////////
+
+Route::post('restaurantOrderByDistance', "SearchController@restaurantOrderByDistance");
+Route::post('serachLocation', "SearchController@serachLocation");
+Route::post('serachRestaurants', "SearchController@serachRestaurants");
+
+

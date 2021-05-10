@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Like;
 
 class Product extends Model
 {
     protected $guarded = []; 
+    protected $appends = ['likes_count'];
 
     public function Image()
     {
@@ -40,6 +42,10 @@ public function Happytime()
 {
     return $this->hasOne('App\Happytime');
 }
+public function getLikesCountAttribute()
+    {
+        return Like::where('product_id',$this->id)->count();
+    }
   
     
 }

@@ -1,12 +1,13 @@
 <?php
 
 namespace App;
-
+use App\Favourite;
 use Illuminate\Database\Eloquent\Model;
 
 class Restaurant extends Model
 {
-    protected $guarded = []; 
+    protected $guarded = [];
+    protected $appends = ['favs_count']; 
     
 public function Services()
 {
@@ -30,6 +31,10 @@ public function Games()
 public function Categories()
 {
     return $this->hasMany('App\Category');
+}
+public function MainCategories()
+{
+    return $this->hasMany('App\Category')->where('parentCategory_id',null)->has('Products', '>' , 0);
 }
 public function Products()
 {
@@ -69,6 +74,10 @@ public function Likes()
     public function Post()
     {
         return $this->hasOne('App\Post');
+    }
+    public function getFavsCountAttribute()
+    {
+        return Favourite::where('restaurant_id',$this->id)->count();
     }
 
 }
